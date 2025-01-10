@@ -11,7 +11,6 @@ import {
   newArrTwo,
   newArrThree,
   newArrFour,
-  filter1, filter2, filter3, filter4
 } from "../assets/images/index";
 
 // =================== NavBarList Start here ====================

@@ -6,46 +6,47 @@ import {
   bestSellerTwo,
   bestSellerThree,
   bestSellerFour,
+  filter6, filter7, filter8, filter9
 } from "../../../assets/images/index";
 
 const BestSellers = () => {
   return (
     <div className="w-full pb-20">
-      <Heading heading="Our Bestsellers" />
+      <Heading heading="Ko'p sotilganlar" />
       <div className="w-full grid grid-cols-1 md:grid-cols-2 lgl:grid-cols-3 xl:grid-cols-4 gap-10">
         <Product
           _id="1011"
-          img={bestSellerOne}
-          productName="Flower Base"
+          img={filter6}
+          productName="СРФ2 СРФ 8"
           price="35.00"
-          color="Blank and White"
+          color="рукавный фильтр"
           badge={true}
           des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
         />
         <Product
           _id="1012"
-          img={bestSellerTwo}
-          productName="New Backpack"
+          img={filter7}
+          productName="СРФ-М"
           price="180.00"
-          color="Gray"
+          color="рукавный фильтр"
           badge={false}
           des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
         />
         <Product
           _id="1013"
-          img={bestSellerThree}
-          productName="Household materials"
+          img={filter8}
+          productName="СРФ 1"
           price="25.00"
-          color="Mixed"
+          color="рукавный фильтр"
           badge={true}
           des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
         />
         <Product
           _id="1014"
-          img={bestSellerFour}
-          productName="Travel Bag"
+          img={filter9}
+          productName="РЦИЭ-Н"
           price="220.00"
-          color="Black"
+          color="рукавный циклонный фильтр"
           badge={false}
           des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
         />

@@ -37,8 +37,13 @@ import filter3 from './1005.png'
 import filter4 from './cof1001.png'
 import filter5 from './filter.jpg'
 
+import filter6 from './1.webp'
+import filter7 from './2.webp'
+import filter8 from './3.webp'
+import filter9 from './4.webp'
+
 export {
-  filter1, filter2, filter3, filter4, filter5,
+  filter1, filter2, filter3, filter4, filter5, filter6, filter7, filter8, filter9,
   logo,
   logoLight,
   bannerImgOne,
