@@ -3,6 +3,7 @@ import Slider from "react-slick";
 import Heading from "../Products/Heading";
 import Product from "../Products/Product";
 import {
+  filter1, filter2, filter3, filter4, filter5,
   newArrOne,
   newArrTwo,
   newArrThree,
@@ -47,16 +48,16 @@ const NewArrivals = () => {
     ],
   };
   return (
-    <div className="w-full pb-16">
-      <Heading heading="New Arrivals" />
+    <div className="w-full pb-16 py-20">
+      <Heading heading="Yangi mahsulotlar" />
       <Slider {...settings}>
         <div className="px-2">
           <Product
             _id="100001"
-            img={newArrOne}
-            productName="Round Table Clock"
+            img={filter1}
+            productName="Lacetti"
             price="44.00"
-            color="Black"
+            color="Воздушный фильтр CAF 1007 edit"
             badge={true}
             des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
           />
@@ -64,10 +65,10 @@ const NewArrivals = () => {
         <div className="px-2">
           <Product
             _id="100002"
-            img={newArrTwo}
-            productName="Smart Watch"
+            img={filter2}
+            productName="Cobalt"
             price="250.00"
-            color="Black"
+            color="Воздушный фильтр CAF 1006 edit"
             badge={true}
             des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
           />
@@ -75,10 +76,10 @@ const NewArrivals = () => {
         <div className="px-2">
           <Product
             _id="100003"
-            img={newArrThree}
-            productName="cloth Basket"
+            img={filter3}
+            productName="Spark 1.25"
             price="80.00"
-            color="Mixed"
+            color="Воздушный фильтр CAF 1005 edit"
             badge={true}
             des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
           />
@@ -86,10 +87,10 @@ const NewArrivals = () => {
         <div className="px-2">
           <Product
             _id="100004"
-            img={newArrFour}
-            productName="Funny toys for babies"
+            img={filter4}
+            productName="Lacetti, Nexia"
             price="60.00"
-            color="Mixed"
+            color="Масляный фильтр COF 1001 edit"
             badge={false}
             des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
           />
@@ -97,10 +98,10 @@ const NewArrivals = () => {
         <div className="px-2">
           <Product
             _id="100005"
-            img={newArrTwo}
-            productName="Funny toys for babies"
+            img={filter2}
+            productName="Nexia"
             price="60.00"
-            color="Mixed"
+            color="Воздушный фильтр CAF 1005 edit"
             badge={false}
             des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
           />

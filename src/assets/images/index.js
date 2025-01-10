@@ -31,7 +31,14 @@ import productOfTheYear from "./products/productOfTheYear.webp";
 import paymentCard from "./payment.png";
 import emptyCart from "../images/emptyCart.png";
 
+import filter1 from './caf-1007-2.png'
+import filter2 from './10006.png'
+import filter3 from './1005.png'
+import filter4 from './cof1001.png'
+import filter5 from './filter.jpg'
+
 export {
+  filter1, filter2, filter3, filter4, filter5,
   logo,
   logoLight,
   bannerImgOne,
