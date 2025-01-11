@@ -41,9 +41,20 @@ import filter6 from './1.webp'
 import filter7 from './2.webp'
 import filter8 from './3.webp'
 import filter9 from './4.webp'
+import filter10 from './5.webp'
+
+import filter11 from './6.webp'
+import filter12 from './7.webp'
+import filter13 from './8.webp'
+import filter14 from './9.webp'
+import filter15 from './10.webp'
+
+import filter16 from './11.webp'
+import filter17 from './12.webp'
 
 export {
   filter1, filter2, filter3, filter4, filter5, filter6, filter7, filter8, filter9,
+  filter10, filter11, filter12, filter13, filter14, filter15, filter16, filter17,
   logo,
   logoLight,
   bannerImgOne,

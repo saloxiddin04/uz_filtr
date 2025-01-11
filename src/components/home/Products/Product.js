@@ -28,9 +28,9 @@ const Product = (props) => {
   };
   return (
     <div className="w-full relative group" onClick={handleProductDetails}>
-      <div className="max-w-80 max-h-80 relative overflow-y-hidden ">
+      <div className="relative overflow-hidden aspect-w-1 aspect-h-1">
         <div>
-          <Image className="w-full h-full object-cover scale-100 transition-transform duration-300 group-hover:scale-150" imgSrc={props.img} />
+          <Image className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" imgSrc={props.img} />
         </div>
         <div className="absolute top-6 left-8 flex justify-between w-[80%]">
           {props.badge && <Badge text="New" />}
