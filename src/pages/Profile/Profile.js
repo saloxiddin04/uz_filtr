@@ -4,18 +4,22 @@ import { FaUserAlt } from "react-icons/fa";
 import {useLocation, useNavigate} from "react-router-dom";
 import Breadcrumbs from "../../components/pageProps/Breadcrumbs";
 import {toast} from "react-toastify";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {setUser, updateUser} from "../../redux/auth/authSlice";
 
 const Profile = () => {
 	const dispatch = useDispatch()
 	const location = useLocation();
 	const navigate = useNavigate()
+	
+	const {user} = useSelector(state => state?.user)
+	
 	const [first_name, setFirstName] = useState(null)
 	const [last_name, setLastName] = useState(null)
 	const [email, setEmail] = useState(null)
-	const [password, setPassword] = useState(null)
-	const [confirm_password, setConfirmPassword] = useState(null)
+	const [phone_number, setPhoneNumber] = useState(null)
+	const [password, setPassword] = useState(undefined)
+	const [confirm_password, setConfirmPassword] = useState(undefined)
 	const [visible, setVisible] = useState(false)
 	
 	const [prevLocation, setPrevLocation] = useState("");
@@ -23,6 +27,13 @@ const Profile = () => {
 	useEffect(() => {
 		setPrevLocation(location.state.data);
 	}, [location]);
+	
+	useEffect(() => {
+		setFirstName(user?.first_name)
+		setLastName(user?.last_name)
+		setEmail(user?.email)
+		setPhoneNumber(user?.phone_number)
+	}, [user]);
 	
 	const patchUser = () => {
 		if (!first_name || !last_name || !email || !password || !confirm_password || password !== confirm_password) {
@@ -74,7 +85,19 @@ const Profile = () => {
 						/>
 					</div>
 					<div
-						className="input flex flex-col w-full"
+						className="input flex flex-col w-[48%]"
+					>
+						<label htmlFor="phone_number">Phone Number</label>
+						<input
+							type="text"
+							id={'phone_number'}
+							className={`py-2.5 px-2 rounded mt-2 outline-none border`}
+							value={phone_number || ''}
+							onChange={(e) => setPhoneNumber(e.target.value)}
+						/>
+					</div>
+					<div
+						className="input flex flex-col w-[48%]"
 					>
 						<label htmlFor="username">Email</label>
 						<input
