@@ -35,6 +35,18 @@ export const verifyCode = createAsyncThunk(
 	}
 )
 
+export const updateUser = createAsyncThunk(
+	"auth/updateUser",
+	async (data) => {
+		try {
+			const response = await instance.patch('auth/update-user-auth', data)
+			return response.data
+		} catch (e) {
+			return e;
+		}
+	}
+)
+
 const authSlice = createSlice({
 	name: 'auth',
 	initialState,
@@ -46,6 +58,10 @@ const authSlice = createSlice({
 		setRefresh: (state, {payload}) => {
 			state.refresh_token = payload?.refresh_token
 			localStorage.setItem('refresh_token', payload?.refresh_token)
+		},
+		setUser: (state, {payload}) => {
+			state.user = payload
+			localStorage.setItem('user', JSON.stringify(payload))
 		}
 	},
 	extraReducers: (builder) => {
@@ -60,9 +76,23 @@ const authSlice = createSlice({
 			state.code = null
 			state.loading = false
 		})
+		
+		// updateUser
+		builder
+			.addCase(updateUser.pending, (state) => {
+				state.loading = true
+			})
+			.addCase(updateUser.fulfilled, (state, {payload}) => {
+				state.user = payload
+				state.loading = false
+			})
+			.addCase(updateUser.rejected, (state) => {
+				state.user = null
+				state.loading = false
+			})
 	}
 })
 
-export const { setAccess, setRefresh } = authSlice.actions
+export const { setAccess, setRefresh, setUser } = authSlice.actions
 
 export default authSlice.reducer

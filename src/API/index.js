@@ -2,7 +2,7 @@ import axios from 'axios';
 import { api_url } from '../config';
 import { toast } from 'react-toastify';
 
-const access_token = localStorage.getItem('access') || '';
+const access_token = localStorage.getItem('access_token') || '';
 const user = localStorage.getItem('user') || '';
 
 const instance = axios.create({

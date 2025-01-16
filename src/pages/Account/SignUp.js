@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import {BsCheckCircleFill} from "react-icons/bs";
-import {Link} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {logoLight} from "../../assets/images";
 import {getCode, setAccess, setRefresh, verifyCode} from "../../redux/auth/authSlice";
 import {useDispatch} from "react-redux";
@@ -9,6 +9,8 @@ import Timer from "../../components/Timer/Timer";
 
 const SignUp = () => {
 	const dispatch = useDispatch()
+	const navigate = useNavigate()
+	const location = useLocation();
 	
 	const [phone_number, setPhone] = useState("+998");
 	const [status, setStatus] = useState(null)
@@ -43,6 +45,8 @@ const SignUp = () => {
 				dispatch(setAccess(payload?.token))
 				dispatch(setRefresh(payload?.token))
 				toast.success('success')
+				navigate('/profile', {state: {data: location.pathname.split("/")[1]}})
+				window.location.reload()
 			}
 		})
 	}
@@ -89,76 +93,74 @@ const SignUp = () => {
 					</div>
 				</div>
 			</div>
-			<div className="w-full lgl:w-[500px] h-full flex flex-col justify-center">
-				<form className="w-full lgl:w-[500px] h-screen flex items-center justify-center">
-					<div
-						className="px-6 py-4 w-full h-[96%] flex flex-col justify-start overflow-y-scroll scrollbar-thin scrollbar-thumb-primeColor">
-						<h1
-							className="font-titleFont underline underline-offset-4 decoration-[1px] font-semibold text-2xl mdl:text-3xl mb-4">
-							Create your account
-						</h1>
-						<div className="flex flex-col gap-3">
-							{/* Phone Number */}
+			<form className="w-full lgl:w-[500px] h-screen flex items-center justify-center">
+				<div
+					className="px-6 py-4 w-full h-[96%] flex flex-col justify-start overflow-y-scroll scrollbar-thin scrollbar-thumb-primeColor">
+					<h1
+						className="font-titleFont underline underline-offset-4 decoration-[1px] font-semibold text-2xl mdl:text-3xl mb-4">
+						Create your account
+					</h1>
+					<div className="flex flex-col gap-3">
+						{/* Phone Number */}
+						<div className="flex flex-col gap-.5">
+							<p className="font-titleFont text-base font-semibold text-gray-600">
+								Phone Number
+							</p>
+							<input
+								onChange={handlePhone}
+								value={phone_number}
+								className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+								type="text"
+								placeholder="+998999999999"
+							/>
+						</div>
+						{status === 0 && <Timer/>}
+						{status === 0 && (
 							<div className="flex flex-col gap-.5">
 								<p className="font-titleFont text-base font-semibold text-gray-600">
-									Phone Number
+									Verify Code
 								</p>
 								<input
-									onChange={handlePhone}
-									value={phone_number}
+									onChange={(e) => setCode(e.target.value)}
+									value={code || ''}
 									className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
 									type="text"
-									placeholder="+998999999999"
+									placeholder="1234"
 								/>
 							</div>
-							{status === 0 && <Timer />}
-							{status === 0 && (
-								<div className="flex flex-col gap-.5">
-									<p className="font-titleFont text-base font-semibold text-gray-600">
-										Verify Code
-									</p>
-									<input
-										onChange={(e) => setCode(e.target.value)}
-										value={code || ''}
-										className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
-										type="text"
-										placeholder="1234"
-									/>
-								</div>
-							)}
-							{status === 0 ? (
-								<button
-									onClick={handleVerify}
-									className={`${
-										"bg-primeColor hover:bg-black hover:text-white cursor-pointer"
-										
-									} w-full text-gray-200 text-base font-medium h-10 rounded-md hover:text-white duration-300`}
-								>
-									Verify
-								</button>
-							) : (
-								<button
-									onClick={handleSignUp}
-									className={`${
-										"bg-primeColor hover:bg-black hover:text-white cursor-pointer"
-										
-									} w-full text-gray-200 text-base font-medium h-10 rounded-md hover:text-white duration-300`}
-								>
-									Create Account
-								</button>
-							)}
-							<p className="text-sm text-center font-titleFont font-medium">
-								Don't have an Account?{" "}
-								<Link to="/signin">
+						)}
+						{status === 0 ? (
+							<button
+								onClick={handleVerify}
+								className={`${
+									"bg-primeColor hover:bg-black hover:text-white cursor-pointer"
+									
+								} w-full text-gray-200 text-base font-medium h-10 rounded-md hover:text-white duration-300`}
+							>
+								Verify
+							</button>
+						) : (
+							<button
+								onClick={handleSignUp}
+								className={`${
+									"bg-primeColor hover:bg-black hover:text-white cursor-pointer"
+									
+								} w-full text-gray-200 text-base font-medium h-10 rounded-md hover:text-white duration-300`}
+							>
+								Create Account
+							</button>
+						)}
+						<p className="text-sm text-center font-titleFont font-medium">
+							Don't have an Account?{" "}
+							<Link to="/signin">
                     <span className="hover:text-blue-600 duration-300">
                       Sign in
                     </span>
-								</Link>
-							</p>
-						</div>
+							</Link>
+						</p>
 					</div>
-				</form>
-			</div>
+				</div>
+			</form>
 		</div>
 	);
 };
