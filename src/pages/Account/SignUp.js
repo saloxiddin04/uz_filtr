@@ -31,8 +31,13 @@ const SignUp = () => {
 		if (!phone_number.startsWith("+998")) return;
 		
 		dispatch(getCode({phone_number})).then(({payload}) => {
-			setStatus(payload?.status)
-			toast.success(`Code: ${payload?.test_verify_code}`)
+			if (payload?.status === 1) {
+				toast.success('You have already profile')
+				navigate('/signin')
+			} else {
+				setStatus(payload?.status)
+				toast.success(`Code: ${payload?.test_verify_code}`)
+			}
 		})
 	};
 	
