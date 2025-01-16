@@ -11,6 +11,8 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import orebiReducer from "./orebiSlice";
+import user from "./auth/authSlice";
+import timer from "./timer/timerSlice";
 
 const persistConfig = {
   key: "root",
@@ -21,7 +23,11 @@ const persistConfig = {
 const persistedReducer = persistReducer(persistConfig, orebiReducer);
 
 export const store = configureStore({
-  reducer: { orebiReducer: persistedReducer },
+  reducer: {
+    user,
+    timer,
+    orebiReducer: persistedReducer
+  },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {

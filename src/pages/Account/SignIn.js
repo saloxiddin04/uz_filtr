@@ -2,47 +2,44 @@ import React, { useState } from "react";
 import { BsCheckCircleFill } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import { logoLight } from "../../assets/images";
+import Timer from "../../components/Timer/Timer";
+import {useDispatch} from "react-redux";
+import {getCode} from "../../redux/auth/authSlice";
 
 const SignIn = () => {
-  // ============= Initial State Start here =============
-  const [email, setEmail] = useState("");
+  const dispatch = useDispatch()
+  const [phoneNumber, setPhoneNumber] = useState("+998");
   const [password, setPassword] = useState("");
-  // ============= Initial State End here ===============
-  // ============= Error Msg Start here =================
+  
   const [errEmail, setErrEmail] = useState("");
   const [errPassword, setErrPassword] = useState("");
 
-  // ============= Error Msg End here ===================
   const [successMsg, setSuccessMsg] = useState("");
-  // ============= Event Handler Start here =============
-  const handleEmail = (e) => {
-    setEmail(e.target.value);
+  
+  const handlePhoneNumber = (e) => {
+    const inputValue = e.target.value;
+    
+    // Use regex to allow only numbers
+    if (inputValue.startsWith("+998")) {
+      const sanitizedValue = inputValue.replace(/[^\d+]/g, "");
+      setPhoneNumber(sanitizedValue);
+    }
     setErrEmail("");
   };
+  
   const handlePassword = (e) => {
     setPassword(e.target.value);
     setErrPassword("");
   };
-  // ============= Event Handler End here ===============
+  
   const handleSignUp = (e) => {
     e.preventDefault();
-
-    if (!email) {
-      setErrEmail("Enter your email");
-    }
-
-    if (!password) {
-      setErrPassword("Create a password");
-    }
-    // ============== Getting the value ==============
-    if (email && password) {
-      setSuccessMsg(
-        `Hello dear, Thank you for your attempt. We are processing to validate your access. Till then stay connected and additional assistance will be sent to you by your mail at ${email}`
-      );
-      setEmail("");
-      setPassword("");
-    }
+    
+    if (!phoneNumber.startsWith("+998")) return;
+    
+    dispatch(getCode({phone_number: phoneNumber}))
   };
+  
   return (
     <div className="w-full h-screen flex items-center justify-center">
       <div className="w-1/2 hidden lgl:inline-flex h-full text-white">
@@ -62,32 +59,6 @@ const SignIn = () => {
             </span>
             <p className="text-base text-gray-300">
               <span className="text-white font-semibold font-titleFont">
-                Get started fast with OREBI
-              </span>
-              <br />
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab omnis
-              nisi dolor recusandae consectetur!
-            </p>
-          </div>
-          <div className="w-[300px] flex items-start gap-3">
-            <span className="text-green-500 mt-1">
-              <BsCheckCircleFill />
-            </span>
-            <p className="text-base text-gray-300">
-              <span className="text-white font-semibold font-titleFont">
-                Access all OREBI services
-              </span>
-              <br />
-              Lorem ipsum, dolor sit amet consectetur adipisicing elit. Ab omnis
-              nisi dolor recusandae consectetur!
-            </p>
-          </div>
-          <div className="w-[300px] flex items-start gap-3">
-            <span className="text-green-500 mt-1">
-              <BsCheckCircleFill />
-            </span>
-            <p className="text-base text-gray-300">
-              <span className="text-white font-semibold font-titleFont">
                 Trusted by online Shoppers
               </span>
               <br />
@@ -96,11 +67,6 @@ const SignIn = () => {
             </p>
           </div>
           <div className="flex items-center justify-between mt-10">
-            <Link to="/">
-              <p className="text-sm font-titleFont font-semibold text-gray-300 hover:text-white cursor-pointer duration-300">
-                © OREBI
-              </p>
-            </Link>
             <p className="text-sm font-titleFont font-semibold text-gray-300 hover:text-white cursor-pointer duration-300">
               Terms
             </p>
@@ -135,24 +101,18 @@ const SignIn = () => {
                 Sign in
               </h1>
               <div className="flex flex-col gap-3">
-                {/* Email */}
+                {/*<Timer/>*/}
                 <div className="flex flex-col gap-.5">
                   <p className="font-titleFont text-base font-semibold text-gray-600">
-                    Work Email
+                    Telefon raqam
                   </p>
                   <input
-                    onChange={handleEmail}
-                    value={email}
+                    onChange={handlePhoneNumber}
+                    value={phoneNumber}
                     className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
                     type="email"
-                    placeholder="john@workemail.com"
+                    placeholder="+998999999999"
                   />
-                  {errEmail && (
-                    <p className="text-sm text-red-500 font-titleFont font-semibold px-4">
-                      <span className="font-bold italic mr-1">!</span>
-                      {errEmail}
-                    </p>
-                  )}
                 </div>
 
                 {/* Password */}
