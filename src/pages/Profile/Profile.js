@@ -5,7 +5,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import Breadcrumbs from "../../components/pageProps/Breadcrumbs";
 import {toast} from "react-toastify";
 import {useDispatch, useSelector} from "react-redux";
-import {setUser, updateUser} from "../../redux/auth/authSlice";
+import {getUserDetail, setUser, updateUser} from "../../redux/auth/authSlice";
 
 const Profile = () => {
 	const dispatch = useDispatch()
@@ -44,7 +44,10 @@ const Profile = () => {
 			first_name, last_name, email, password, confirm_password
 		})).then(({payload}) => {
 			if (payload?.success) {
-				dispatch(setUser(payload))
+				dispatch(getUserDetail()).then((res) => {
+					dispatch(setUser(res?.payload))
+				})
+				// dispatch(setUser(payload))
 				toast.success('Success')
 			}
 		})
@@ -94,6 +97,7 @@ const Profile = () => {
 							className={`py-2.5 px-2 rounded mt-2 outline-none border`}
 							value={phone_number || ''}
 							onChange={(e) => setPhoneNumber(e.target.value)}
+							disabled={true}
 						/>
 					</div>
 					<div

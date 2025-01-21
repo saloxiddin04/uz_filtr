@@ -1,15 +1,21 @@
 import React, {useState} from "react";
 import {BsCheckCircleFill} from "react-icons/bs";
-import {Link, useNavigate} from "react-router-dom";
+import {Link, useLocation, useNavigate} from "react-router-dom";
 import {logoLight} from "../../assets/images";
 import {useDispatch} from "react-redux";
-import {getUserDetail, login, setAccess, setRefresh, setUser} from "../../redux/auth/authSlice";
+import {getCode, getUserDetail, login, setAccess, setRefresh, setUser, verifyCode} from "../../redux/auth/authSlice";
+import {toast} from "react-toastify";
+import Timer from "../../components/Timer/Timer";
 
 const SignIn = () => {
 	const dispatch = useDispatch()
 	const navigate = useNavigate()
+	const location = useLocation();
+	
 	const [phoneNumber, setPhoneNumber] = useState("+998");
 	const [password, setPassword] = useState(null);
+	const [status, setStatus] = useState(null)
+	const [code, setCode] = useState(null)
 	
 	const handlePhoneNumber = (e) => {
 		const inputValue = e.target.value;
@@ -24,10 +30,39 @@ const SignIn = () => {
 		setPassword(e.target.value);
 	};
 	
-	const handleSignUp = (e) => {
+	const handleStatus = (e) => {
 		e.preventDefault();
 		
-		if (!phoneNumber || !password) return;
+		if (phoneNumber === '+998') return;
+		
+		dispatch(getCode({phone_number: phoneNumber})).then(({payload}) => {
+			if (payload?.status === 1) {
+				setStatus(1)
+			} else {
+				setStatus(payload?.status)
+				toast.success(`Code: ${payload?.test_verify_code}`)
+			}
+		})
+	};
+	
+	const handleVerify = (e) => {
+		e.preventDefault();
+		if (!code || phoneNumber === '+998') return;
+		
+		dispatch(verifyCode({phone_number: phoneNumber, code})).then(({payload}) => {
+			if (payload?.success) {
+				dispatch(setAccess(payload?.token))
+				dispatch(setRefresh(payload?.token))
+				toast.success('success')
+				navigate('/profile', {state: {data: location.pathname.split("/")[1]}})
+				// window.location.reload()
+			}
+		})
+	}
+	
+	const handleLogin = (e) => {
+		e.preventDefault()
+		if (phoneNumber === '+998' || !password) return;
 		
 		dispatch(login({ phone_number: phoneNumber, password }))
 			.then(({ payload }) => {
@@ -40,6 +75,7 @@ const SignIn = () => {
 						if (res?.payload) {
 							dispatch(setUser(res.payload));
 							navigate('/');
+							toast.success('Success')
 						} else {
 							console.error('Failed to fetch user details');
 						}
@@ -51,7 +87,7 @@ const SignIn = () => {
 			.catch((error) => {
 				console.error('Login error:', error);
 			});
-	};
+	}
 	
 	
 	return (
@@ -105,7 +141,6 @@ const SignIn = () => {
 							Sign in
 						</h1>
 						<div className="flex flex-col gap-3">
-							{/*<Timer/>*/}
 							<div className="flex flex-col gap-.5">
 								<p className="font-titleFont text-base font-semibold text-gray-600">
 									Telefon raqam
@@ -119,34 +154,64 @@ const SignIn = () => {
 								/>
 							</div>
 							
-							{/* Password */}
-							<div className="flex flex-col gap-.5">
-								<p className="font-titleFont text-base font-semibold text-gray-600">
-									Password
-								</p>
-								<input
-									onChange={handlePassword}
-									value={password || ''}
-									className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
-									type="password"
-									placeholder="Create password"
-								/>
-							</div>
+							{status === null && (
+								<button
+									onClick={handleStatus}
+									className="bg-primeColor hover:bg-black text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md  duration-300"
+								>
+									Sign In
+								</button>
+							)}
 							
-							<button
-								onClick={handleSignUp}
-								className="bg-primeColor hover:bg-black text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md  duration-300"
-							>
-								Sign In
-							</button>
-							<p className="text-sm text-center font-titleFont font-medium">
-								Don't have an Account?{" "}
-								<Link to="/signup">
-                    <span className="hover:text-blue-600 duration-300">
-                      Sign up
-                    </span>
-								</Link>
-							</p>
+							{status === 1 && (
+								<>
+									<div className="flex flex-col">
+										<p className="font-titleFont text-base font-semibold text-gray-600">
+											Password
+										</p>
+										<input
+											onChange={handlePassword}
+											value={password || ''}
+											className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+											type="password"
+											placeholder="Create password"
+										/>
+									</div>
+									<button
+										onClick={handleLogin}
+										className="bg-primeColor hover:bg-black text-gray-200 hover:text-white cursor-pointer w-full text-base font-medium h-10 rounded-md  duration-300"
+									>
+										Sign In
+									</button>
+								</>
+							)}
+							
+							{status === 0 && (
+								<>
+									<Timer />
+									<div className="flex flex-col">
+										<p className="font-titleFont text-base font-semibold text-gray-600">
+											Verify Code
+										</p>
+										<input
+											onChange={(e) => setCode(e.target.value)}
+											value={code || ''}
+											className="w-full h-8 placeholder:text-sm placeholder:tracking-wide px-4 text-base font-medium placeholder:font-normal rounded-md border-[1px] border-gray-400 outline-none"
+											type="text"
+											placeholder="1234"
+										/>
+									</div>
+									<button
+										onClick={handleVerify}
+										className={`${
+											"bg-primeColor hover:bg-black hover:text-white cursor-pointer"
+											
+										} w-full text-gray-200 text-base font-medium h-10 rounded-md hover:text-white duration-300`}
+									>
+										Verify
+									</button>
+								</>
+							)}
 						</div>
 					</div>
 				</form>
