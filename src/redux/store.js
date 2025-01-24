@@ -13,6 +13,7 @@ import storage from "redux-persist/lib/storage";
 import orebiReducer from "./orebiSlice";
 import user from "./auth/authSlice";
 import timer from "./timer/timerSlice";
+import product from "./products/productSlice";
 
 const persistConfig = {
   key: "root",
@@ -26,6 +27,7 @@ export const store = configureStore({
   reducer: {
     user,
     timer,
+    product,
     orebiReducer: persistedReducer
   },
   middleware: (getDefaultMiddleware) =>

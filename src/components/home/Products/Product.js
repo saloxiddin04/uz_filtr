@@ -11,7 +11,7 @@ import { addToCart } from "../../../redux/orebiSlice";
 
 const Product = (props) => {
   const dispatch = useDispatch();
-  const _id = props.productName;
+  const _id = props._id;
   const idString = (_id) => {
     return String(_id).toLowerCase().split(" ").join("");
   };
@@ -30,7 +30,7 @@ const Product = (props) => {
     <div className="w-full relative group" onClick={handleProductDetails}>
       <div className="relative overflow-hidden aspect-w-1 aspect-h-1">
         <div>
-          <Image className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110" imgSrc={props.img} />
+          <Image className="w-full max-h-[330px] h-full object-cover transition-transform duration-300 group-hover:scale-110" imgSrc={props.img} />
         </div>
         <div className="absolute top-6 left-8 flex justify-between w-[80%]">
           {props.badge && <Badge text="New" />}
@@ -98,7 +98,7 @@ const Product = (props) => {
         {/*  </ul>*/}
         {/*</div>*/}
       </div>
-      <div className="max-w-80 py-6 flex flex-col gap-1 border-[1px] border-t-0 px-4">
+      <div className="w-full py-6 flex flex-col gap-1 border-[1px] border-t-0 px-4">
         <div className="flex items-center justify-between font-titleFont">
           <h2 className="text-lg text-primeColor font-bold">
             {props.productName}

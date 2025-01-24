@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import Slider from "react-slick";
 import Heading from "../Products/Heading";
 import Product from "../Products/Product";
@@ -11,8 +11,18 @@ import {
 } from "../../../assets/images/index";
 import SampleNextArrow from "./SampleNextArrow";
 import SamplePrevArrow from "./SamplePrevArrow";
+import {useDispatch, useSelector} from "react-redux";
+import {getAllProducts} from "../../../redux/products/productSlice";
 
 const NewArrivals = () => {
+  const dispatch = useDispatch()
+  
+  const {loading, products} = useSelector((state) => state.product)
+  
+  useEffect(() => {
+    dispatch(getAllProducts())
+  }, [dispatch]);
+  
   const settings = {
     infinite: true,
     speed: 500,
@@ -47,65 +57,71 @@ const NewArrivals = () => {
       },
     ],
   };
+  
+  if (loading) return <p>Loading...</p>
+  
   return (
     <div className="w-full pb-16 py-20">
       <Heading heading="Yangi mahsulotlar" />
       <Slider {...settings}>
-        <div className="px-2">
-          <Product
-            _id="100001"
-            img={filter1}
-            productName="Lacetti"
-            price="44.00"
-            color="Воздушный фильтр CAF 1007 edit"
-            badge={true}
-            des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
-          />
-        </div>
-        <div className="px-2">
-          <Product
-            _id="100002"
-            img={filter2}
-            productName="Cobalt"
-            price="250.00"
-            color="Воздушный фильтр CAF 1006 edit"
-            badge={true}
-            des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
-          />
-        </div>
-        <div className="px-2">
-          <Product
-            _id="100003"
-            img={filter3}
-            productName="Spark 1.25"
-            price="80.00"
-            color="Воздушный фильтр CAF 1005 edit"
-            badge={true}
-            des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
-          />
-        </div>
-        <div className="px-2">
-          <Product
-            _id="100004"
-            img={filter4}
-            productName="Lacetti, Nexia"
-            price="60.00"
-            color="Масляный фильтр COF 1001 edit"
-            badge={false}
-            des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
-          />
-        </div>
-        <div className="px-2">
-          <Product
-            _id="100005"
-            img={filter2}
-            productName="Nexia"
-            price="60.00"
-            color="Воздушный фильтр CAF 1005 edit"
-            badge={false}
-            des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."
-          />
-        </div>
+        {products?.result?.map((item) => (
+          <div className="px-2" key={item?.id}>
+            <Product
+              _id={item?.id}
+              img={item?.product_files[0]?.image?.file}
+              productName={item?.name?.length > 20 ? `${item?.name?.slice(0, 20)}...` : item?.name}
+              price={item?.product_variants[0]?.price}
+              color={item?.category?.name}
+              badge={true}
+              des={item?.description?.slice(0, 30)}
+            />
+          </div>
+        ))}
+        
+        {/*<div className="px-2">*/}
+        {/*  <Product*/}
+        {/*    _id="100002"*/}
+        {/*    img={filter2}*/}
+        {/*    productName="Cobalt"*/}
+        {/*    price="250.00"*/}
+        {/*    color="Воздушный фильтр CAF 1006 edit"*/}
+        {/*    badge={true}*/}
+        {/*    des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."*/}
+        {/*  />*/}
+        {/*</div>*/}
+        {/*<div className="px-2">*/}
+        {/*  <Product*/}
+        {/*    _id="100003"*/}
+        {/*    img={filter3}*/}
+        {/*    productName="Spark 1.25"*/}
+        {/*    price="80.00"*/}
+        {/*    color="Воздушный фильтр CAF 1005 edit"*/}
+        {/*    badge={true}*/}
+        {/*    des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."*/}
+        {/*  />*/}
+        {/*</div>*/}
+        {/*<div className="px-2">*/}
+        {/*  <Product*/}
+        {/*    _id="100004"*/}
+        {/*    img={filter4}*/}
+        {/*    productName="Lacetti, Nexia"*/}
+        {/*    price="60.00"*/}
+        {/*    color="Масляный фильтр COF 1001 edit"*/}
+        {/*    badge={false}*/}
+        {/*    des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."*/}
+        {/*  />*/}
+        {/*</div>*/}
+        {/*<div className="px-2">*/}
+        {/*  <Product*/}
+        {/*    _id="100005"*/}
+        {/*    img={filter2}*/}
+        {/*    productName="Nexia"*/}
+        {/*    price="60.00"*/}
+        {/*    color="Воздушный фильтр CAF 1005 edit"*/}
+        {/*    badge={false}*/}
+        {/*    des="Lorem ipsum dolor sit amet consectetur adipisicing elit. Hic excepturi quibusdam odio deleniti reprehenderit facilis."*/}
+        {/*  />*/}
+        {/*</div>*/}
       </Slider>
     </div>
   );
