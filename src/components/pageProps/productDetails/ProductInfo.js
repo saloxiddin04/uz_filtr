@@ -90,7 +90,7 @@ const ProductInfo = ({ productInfo }) => {
             addToCart({
               _id: productInfo?.id,
               name: productInfo?.name,
-              quantity: 1,
+              quantity,
               image: productInfo?.product_files?.[0]?.image?.file,
               price: productInfo?.product_variants?.[0]?.price,
             })
