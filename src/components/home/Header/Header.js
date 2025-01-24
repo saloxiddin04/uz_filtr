@@ -7,13 +7,22 @@ import { logo, logoLight } from "../../../assets/images";
 import Image from "../../designLayouts/Image";
 import { navBarList } from "../../../constants";
 import Flex from "../../designLayouts/Flex";
+import {RxHamburgerMenu} from "react-icons/rx";
+import {IoMdClose} from "react-icons/io";
+import CategoryModal from "../../Category/CategoryModal";
+import {useDispatch} from "react-redux";
+import {getAllCategories} from "../../../redux/category/categorySlice";
 
 const Header = () => {
+  const dispatch = useDispatch()
   const [showMenu, setShowMenu] = useState(true);
   const [sidenav, setSidenav] = useState(false);
   const [category, setCategory] = useState(false);
   const [brand, setBrand] = useState(false);
+  const [category_modal, setCategoryModal] = useState(false)
+  
   const location = useLocation();
+  
   useEffect(() => {
     let ResponsiveMenu = () => {
       if (window.innerWidth < 667) {
@@ -25,6 +34,12 @@ const Header = () => {
     ResponsiveMenu();
     window.addEventListener("resize", ResponsiveMenu);
   }, []);
+  
+  useEffect(() => {
+    if (category_modal) {
+      dispatch(getAllCategories())
+    }
+  }, [dispatch, category_modal]);
 
   return (
     <div className="w-full h-20 bg-white sticky top-0 z-50 border-b-[1px] border-b-gray-200">
@@ -54,6 +69,13 @@ const Header = () => {
                       <li>{title}</li>
                     </NavLink>
                   ))}
+                  <button
+                    className="bg-blue-500 text-white rounded py-2 px-3 flex items-center gap-2"
+                    onClick={() => setCategoryModal(!category_modal)}
+                  >
+                    {category_modal ? <IoMdClose /> : <RxHamburgerMenu/>}
+                    Category
+                  </button>
                 </>
               </motion.ul>
             )}
@@ -150,6 +172,10 @@ const Header = () => {
           </div>
         </Flex>
       </nav>
+      
+      {category_modal && (
+        <CategoryModal isOpen={category_modal} onClose={() => setCategoryModal(false)} />
+      )}
     </div>
   );
 };

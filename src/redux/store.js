@@ -14,6 +14,7 @@ import orebiReducer from "./orebiSlice";
 import user from "./auth/authSlice";
 import timer from "./timer/timerSlice";
 import product from "./products/productSlice";
+import category from "./category/categorySlice";
 
 const persistConfig = {
   key: "root",
@@ -28,6 +29,7 @@ export const store = configureStore({
     user,
     timer,
     product,
+    category,
     orebiReducer: persistedReducer
   },
   middleware: (getDefaultMiddleware) =>
