@@ -34,12 +34,6 @@ const Header = () => {
     ResponsiveMenu();
     window.addEventListener("resize", ResponsiveMenu);
   }, []);
-  
-  useEffect(() => {
-    if (category_modal) {
-      dispatch(getAllCategories())
-    }
-  }, [dispatch, category_modal]);
 
   return (
     <div className="w-full h-20 bg-white sticky top-0 z-50 border-b-[1px] border-b-gray-200">
@@ -71,7 +65,11 @@ const Header = () => {
                   ))}
                   <button
                     className="bg-blue-500 text-white rounded py-2 px-3 flex items-center gap-2"
-                    onClick={() => setCategoryModal(!category_modal)}
+                    onClick={() => {
+                      dispatch(getAllCategories()).then(() => {
+                        setCategoryModal(true)
+                      })
+                    }}
                   >
                     {category_modal ? <IoMdClose /> : <RxHamburgerMenu/>}
                     Category
