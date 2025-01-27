@@ -91,6 +91,12 @@ const authSlice = createSlice({
 		setUser: (state, {payload}) => {
 			state.user = payload
 			localStorage.setItem('user', JSON.stringify(payload))
+		},
+		setLogout: (state) => {
+			localStorage.clear()
+			updateAuthHeader()
+			window.location.href = '/'
+			return initialState
 		}
 	},
 	extraReducers: (builder) => {
@@ -134,6 +140,6 @@ const authSlice = createSlice({
 	}
 })
 
-export const { setAccess, setRefresh, setUser } = authSlice.actions
+export const { setAccess, setRefresh, setUser, setLogout } = authSlice.actions
 
 export default authSlice.reducer

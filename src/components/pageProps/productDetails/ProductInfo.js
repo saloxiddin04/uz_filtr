@@ -1,13 +1,27 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../../redux/orebiSlice";
 import {toast} from "react-toastify";
+import {useLocation} from "react-router-dom";
 
 const ProductInfo = ({ productInfo }) => {
   const dispatch = useDispatch();
+  const {pathname} = useLocation()
+  
+  const [variant, setVariant] = useState(null)
   const [quantity, setQuantity] = useState(1);
   
-  const maxQuantity = productInfo?.product_variants?.[0]?.quantity || 0; // Available stock
+  useEffect(() => {
+    if (!variant && productInfo) {
+      setVariant(productInfo?.product_variants[0])
+    }
+  }, [dispatch, productInfo]);
+  
+  useEffect(() => {
+    setVariant(null)
+  }, [pathname]);
+  
+  const maxQuantity = productInfo?.product_variants?.[0]?.quantity || 0;
   
   const handleIncrement = () => {
     if (quantity < maxQuantity) {
@@ -40,30 +54,40 @@ const ProductInfo = ({ productInfo }) => {
         )}
       </div>
       
-      {productInfo?.product_variants?.map((variant, index) => (
-        <div key={variant.id} className="p-4 border rounded-md bg-gray-50 mt-4">
+      <div className="flex gap-2 flex-wrap">
+        {productInfo && productInfo?.product_variants?.map((item, index) => (
+          <div
+            onClick={() => setVariant(item)}
+            key={index}
+            className={`cursor-pointer rounded border-2 p-2 w-1/3 text-center shadow-md ${item?.id === variant?.id ? 'border-blue-500 bg-blue-500 text-white' : 'border-gray-500'}`}
+          >
+            <p>{item?.unique_code} / {item?.brand?.name}</p>
+          </div>
+        ))}
+      </div>
+      
+      <div className="p-4 border rounded-md bg-gray-50 mt-4">
           <p>
-            <span className="font-medium">Brand:</span> {variant.brand?.name}
+            <span className="font-medium">Brand:</span> {variant?.brand?.name}
           </p>
           <p>
-            <span className="font-medium">Price:</span> ${variant.price}
+            <span className="font-medium">Price:</span> ${variant?.price}
           </p>
           <p>
-            <span className="font-medium">Discount:</span> ${variant.discount}
+            <span className="font-medium">Discount:</span> ${variant?.discount}
           </p>
           <p>
-            <span className="font-medium">Quantity:</span> {variant.quantity}
+            <span className="font-medium">Quantity:</span> {variant?.quantity}
           </p>
           <div className="mt-2">
             <p className="font-medium">Attributes:</p>
-            {variant.product_variant_attributes.map((attr) => (
+            {variant?.product_variant_attributes?.map((attr) => (
               <p key={attr.id} className="ml-4">
                 - {attr.attribute.name}: {attr.value}
               </p>
             ))}
           </div>
         </div>
-      ))}
       
       <div className="flex items-center gap-4">
         <p className="font-medium text-lg">Quantity:</p>

@@ -6,12 +6,12 @@ import { useSelector } from "react-redux";
 
 const SpecialCase = () => {
   const location = useLocation()
-  const {user} = useSelector(state => state.user)
+  const {access_token} = useSelector(state => state.user)
   const products = useSelector((state) => state.orebiReducer.products);
   
   return (
     <div className="fixed top-52 right-2 z-20 hidden md:flex flex-col gap-2">
-      <Link to={user ? '/profile' : '/signin'} state={{state: {data: location.pathname.split("/")[1]}}}>
+      <Link to={access_token ? '/profile' : '/signin'} state={{state: {data: location.pathname.split("/")[1]}}}>
         <div className="bg-white w-16 h-[70px] rounded-md flex flex-col gap-1 text-[#33475b] justify-center items-center shadow-testShadow overflow-x-hidden group cursor-pointer">
           <div className="flex justify-center items-center">
             <MdSwitchAccount className="text-2xl -translate-x-12 group-hover:translate-x-3 transition-transform duration-200" />
