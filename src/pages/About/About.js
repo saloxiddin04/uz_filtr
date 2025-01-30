@@ -12,11 +12,9 @@ const About = () => {
     <div className="max-w-container mx-auto px-4">
       <Breadcrumbs title="About" prevLocation={prevLocation} />
       <div className="pb-10">
-        <h1 className="max-w-[600px] text-base text-lightText mb-2">
+        <h1 className="max-w-[700px] text-base text-lightText mb-2">
           <span className="text-primeColor font-semibold text-lg">Uz Filter</span>{" "}
-          is one of the world's leading ecommerce brands and is internationally
-          recognized for celebrating the essence of classic Worldwide cool
-          looking style.
+          «Узфильтр» стремится предоставлять первоклассную продукцию для фильтрации. Благодаря многолетнему опыту мы установили прочные деловые отношения с нашими клиентами. Ключом к нашему росту и развитию является наша приверженность высокому качеству, инновациям и клиентоориентированному подходу. Наша компания является лидером по производству фильтрующих материалов и входит в пятерку крупнейших поставщиков пневмолент, фильтровальных рукавов и игольных тканей в Центральной Азии. Мы регулярно инвестируем в исследования и разработки, чтобы предложить инновационные решения для очистки воздуха и жидкостей. Наше оборудование соответствует международным стандартам, что гарантирует долгосрочную надежность и эффективность нашей продукции. «Узфильтр» не просто поставляет фильтры – мы создаем решения, которые помогают нашим клиентам совершенствовать производственные процессы и заботиться об окружающей среде.
         </h1>
         <Link to="/shop">
           <button className="w-52 h-10 bg-primeColor text-white hover:bg-black duration-300">
